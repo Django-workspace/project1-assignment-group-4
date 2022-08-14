@@ -40,9 +40,13 @@ class SignUp(generics.GenericAPIView,mixins.CreateModelMixin,mixins.ListModelMix
     def post(self,request):
         user=request.data
         serializer=self.serializer_class(data=user)
+        print("here")
         if serializer.is_valid():
             serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response(data=serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    # def post(self,request):
+    #     return self.create(request)
     
 class Login(generics.GenericAPIView,mixins.CreateModelMixin):
     serializer_class=UserSerializerLogIn
@@ -75,7 +79,7 @@ class Login(generics.GenericAPIView,mixins.CreateModelMixin):
 
    
 class UserView(APIView):
-    permission_classes=[IsAuthenticated,IsAdminUser]
+    # permission_classes=[IsAuthenticated,IsAdminUser]
     def get(self,request):
         token=request.COOKIES.get('jwt')
         if not token:

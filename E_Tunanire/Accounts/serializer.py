@@ -3,7 +3,7 @@
 from multiprocessing import AuthenticationError
 from rest_framework import serializers
 from .models import User
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 
 # from django.db.models import Q
 
@@ -15,25 +15,27 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import *
 
-User=get_user_model()
+# User=get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     confirm_password=serializers.CharField(required=True,write_only=True)
     email=serializers.EmailField()
+    User_name=serializers.CharField()
     def validate(self, attrs):
         SignUp_as=attrs.get('SignUp_as')
         if SignUp_as == 'F':
             
-            genre=serializers.HiddenField(default='F',read_only=True)
+            genre=serializers.HiddenField(default='F',write_only=True)
             return genre
         
         return super().validate(attrs)
     class Meta:
         model=User
-        fields=['SignUp_as','first_Name','Last_Name','Username','email','create_on','Date_of_birth','gender','genre','password','confirm_password']
+        fields=['SignUp_as','first_Name','Last_Name','User_name','email','create_on','Date_of_birth','gender','genre','password','confirm_password']
         
         extra_kwargs = {
             'password': {'write_only':True},
-            'confirm_password':{'write_only':True}
+            'confirm_password':{'write_only':True},
+            'User_name':{'write_only':True},
          }
     
     def validate(self, data):
@@ -70,9 +72,9 @@ class UserSerializer(serializers.ModelSerializer):
 class UserSerializerLogIn(serializers.ModelSerializer):
      class Meta:
         model=User
-        fields=['id','Username','email','password']
+        fields=['id','email','password']
         extra_kwargs = {
-            'Username': {'read_only':True},
+            'password': {'write_only':True},
          }
         
         

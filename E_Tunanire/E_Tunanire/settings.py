@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'E_Tunanire.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Tuganire_DB',
+        'NAME': 'tuganiredb',
         'USER':'postgres',
         'PASSWORD': 'paccy',
         'HOST':'localhost',
@@ -126,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-AUTH_USER_MODEL='Accounts.User'
+AUTH_USER_MODEL ='Accounts.User'
 
 REST_FRAMEWORK={
     'NON_FIELD_ERRORS_KEY':'error',
